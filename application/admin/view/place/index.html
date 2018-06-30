@@ -1,0 +1,134 @@
+{__NOLAYOUT__}
+{include file="publics/header"}
+
+    <style type="text/css">
+        body {
+            padding-bottom: 40px;
+        }
+        .sidebar-nav {
+            padding: 9px 0;
+        }
+
+        @media (max-width: 1980px) {
+            /* Enable use of floated navbar text */
+            .navbar-text.pull-right {
+                float: none;
+                padding-left: 5px;
+                padding-right: 5px;
+            }
+        }
+        .typeGray{
+            color: #e60000;
+        }
+        .typeGreen{
+            color: #00e600;
+        }
+
+
+    </style>
+
+<form class="form-inline definewidth m20" action="{:url('place/index')}" method="post">
+    驾校名称：
+    <input type="text" name="search" id="username"class="abc input-default" placeholder="" value="">&nbsp;&nbsp;
+    <button type="submit" class="btn btn-primary">查询</button>&nbsp;&nbsp; <button type="button" class="btn btn-success" id="addnew">新增驾校</button>
+</form>
+<div style="padding-left: 20px;margin-top: 20px;">
+
+    {if ($page_current != 0)}
+      <a class="btn btn-success"   href="{:url('place/index')}?page=<?php echo $page_current-1  ?>" >上一页</a>
+    {/if}
+
+
+    <?php
+       for($i = 0 ;$i < $page; $i++){
+        if($page_current ==  $i){
+        ?>
+          <a class="btn btn-primary" href="{:url('place/index')}?page=<?php echo $i ?>"><?php echo $i+1 ?></a>
+      <?php  }else{?>
+             <a class="btn " href="{:url('place/index')}?page=<?php echo $i ?>"><?php echo $i+1 ?></a>
+        <?php } }
+    ?>
+
+    {if ($page_current != $page-1)}
+         <a class="btn btn btn-success"  href="{:url('place/index')}?page=<?php echo $page_current+1  ?>" >下一页</a>
+    {/if}
+
+
+
+
+</div>
+<table class="table table-bordered table-hover definewidth m10">
+    <thead>
+    <tr>
+        <th>驾校名称</th>
+        <th>联系方式</th>
+        <th>链接</th>
+        <th>地址</th>
+        <th>经纬度</th>
+        <th>类型</th>
+        <th>操作</th>
+    </tr>
+    </thead>
+
+    {foreach $info as $vo}
+        <tr>
+            <td>{$vo.drive_name}</td>
+            <td>{$vo.phone}</td>
+            <td>{$vo.link}</td>
+            <td>{$vo.site}</td>
+            <td>{$vo.lng},{$vo.lat}</td>
+            {if ($vo.type == 1)}
+            <td class="typeGreen">{$vo.type_name}</td>
+            {else /}
+            <td class="typeGray">{$vo.type_name}</td>
+            {/if}
+
+            <td>
+                <a class = 'btn btn-primary' href="{:url('place/edit')}?id={$vo.id}">编辑</a>
+                <botton class = 'btn btn-success' onClick="del({$vo.id})">删除</botton>
+            </td>
+        </tr>
+    {/foreach}
+
+</table>
+
+</body>
+</html>
+<script>
+    $(function () {
+
+
+		$('#addnew').click(function(){
+
+				window.location.href="add.html";
+		 });
+
+
+    });
+
+	function del(id)
+	{
+
+
+		if(confirm("确定要删除吗？"))
+		{
+		
+
+            $.post("{:url('place/delAction')}",{id:id},function(result){
+                if(result == true)
+                {
+                    alert('删除成功！');
+                    window.location.reload();
+                }else
+                    {
+                        alert('删除失败！');
+                        window.location.reload();
+                    }
+            });
+		}
+	
+	
+	
+	
+	}
+</script>

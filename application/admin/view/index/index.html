@@ -1,0 +1,54 @@
+{__NOLAYOUT__}
+{include file="publics/header"}
+<div class="header">
+
+    <div class="dl-title">
+
+    </div>
+
+    <div class="dl-log">欢迎您，<span class="dl-log-user">{$row.nick_name}</span><a href="{:url('login/logout')}" title="退出系统" class="dl-log-quit">[退出]</a>
+    </div>
+</div>
+<div class="content">
+    <div class="dl-main-nav">
+        <div class="dl-inform"><div class="dl-inform-title"><s class="dl-inform-icon dl-up"></s></div></div>
+        <ul id="J_Nav"  class="nav-list ks-clear">
+            <li class="nav-item dl-selected"><div class="nav-item-inner nav-home">系统管理
+
+            </div></li>
+
+    </div>
+    <ul id="J_NavContent" class="dl-tab-conten">
+
+    </ul>
+</div>
+<script type="text/javascript" src="__STATIC__admin/assets/js/jquery-1.8.1.min.js"></script>
+<script type="text/javascript" src="__STATIC__admin/assets/js/bui.js"></script>
+<script type="text/javascript" src="__STATIC__admin/assets/js/common/main-min.js"></script>
+<script type="text/javascript" src="__STATIC__admin/assets/js/config-min.js"></script>
+<script>
+    BUI.use('common/main',function(){
+        var config = [
+            {id:'1',menu:[
+							{text:'地点管理',items:[
+								{id:'12',text:'位置管理',href:"{:url('place/index')}"},
+							]},
+							{text:'辅助管理',items:[
+								{id:'12',text:'导入地点',href:"{:url('assist/index')}"},
+							
+							]}
+						]
+					
+					
+					
+					},
+					
+            ];
+        new PageUtil.MainPage({
+            modulesConfig : config
+        });
+    });
+</script>
+</div>
+</body>
+</html>

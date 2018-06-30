@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta name="viewport" content="initial-scale=1.0, user-scalable=no" />
+	<meta content="text/html; charset=utf-8" http-equiv="Content-Type"/> 
+	<style type="text/css">
+		body, html,#allmap {width: 100%;height: 100%;overflow: hidden;margin:0;font-family:"΢���ź�";}
+	</style>
+	<script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=FkY6tDV2G7d7T4c32YmMbyDClfpQzkUb"></script>
+
+</head>
+<body>
+	<div id="allmap"></div>
+	
+<div style="position:fixed;text-align:center;bottom:200px;;right:10px;z-index:9999;background:#FFF;padding:4px;border-radius:5px;height:80px;" id="getMylocltion" >
+	<div >
+		<img style=":width:30px;height:30px;z-index:9999"  src="__STATIC__img/del.png" onclick="delPanTo();">
+	</div>
+	<div >
+		<img style=":width:23px;height:23px;z-index:9999;margin-top:20px;"  src="__STATIC__img/add.png" onclick="addPanTo();">
+	</div>
+
+</div>
+
+<a href="https://map.baidu.com/mobile/webapp/index/index/qt=cur&wd=%E5%8D%97%E5%AE%81%E5%B8%82&from=maponline&tn=m01&ie=utf-8=utf-8/tab=line"><div style="position:fixed;text-align:center;color:#fff;width:55px;height:55px;bottom:10px;right:10px;z-index:9999;background:#1296db;padding:4px;border-radius:31px;" id="getMylocltion" >
+	<div >
+		<img style="padding-top:6px;width:30px;height:30px;z-index:9999;"  src="__STATIC__img/luxian.png" >
+	</div>
+	<div style="z-index:9999;font-size:8px;text-align:center;">
+		路线
+	</div>
+	
+</div>
+</a>
+<div style="position:fixed;text-align:center;bottom:10px;;left:10px;z-index:9999;background:#FFF;padding:4px;border-radius:5px;" id="getMylocltion" >
+
+<div>
+	<a href="http://seat.gyouth.cn/"><img style=":width:30px;height:30px;z-index:9999"  src="__STATIC__img/index.png"></a>
+</div><div>
+	<img style=":width:30px;height:30px;z-index:9999;margin-top:20px;"  src="__STATIC__img/site.png"  onclick="buttonClick();">
+</div>
+</div>
+<script>
+  function buttonClick(){
+         var geolocation = new BMap.Geolocation();
+			geolocation.getCurrentPosition(function(r){
+				if(this.getStatus() == BMAP_STATUS_SUCCESS){
+					var mk = new BMap.Marker(r.point);
+					 map.setZoom(14);  
+					var pt = new BMap.Point(r.point.lng, r.point.lat);
+					var myIcon = new BMap.Icon("__STATIC__img/mysite.png", new BMap.Size(60,60));
+					var marker2 = new BMap.Marker(pt,{icon:myIcon});  // 创建标注
+					map.addOverlay(marker2);      // 将标注添加到地图
+					map.panTo(r.point);
+				}
+				else {
+					alert('failed'+this.getStatus());
+				}        
+			},{enableHighAccuracy: true})
+        }
+		
+	function delPanTo()
+	{
+		var zoom = map.getZoom();
+		if(zoom>2){
+		   map.setZoom(zoom-1);  
+		}
+	}
+		
+	function addPanTo()
+	{
+		var zoom = map.getZoom();
+		if(zoom<19){
+		   map.setZoom(zoom+1);  
+		}
+	}
+</script>
+</body>
+</html>
+<script type="text/javascript">
+	var map = new BMap.Map("allmap");
+	var map = new BMap.Map("allmap");
+	var data_info = [];
+	var point = new BMap.Point(116.331398,39.897445);
+	map.centerAndZoom(point,14);
+	
+	
+	var geolocation = new BMap.Geolocation();
+	geolocation.getCurrentPosition(function(r){
+		if(this.getStatus() == BMAP_STATUS_SUCCESS){
+			var mk = new BMap.Marker(r.point);
+			//map.addOverlay(mk);
+			//console.log(r.point)
+			var myGeo = new BMap.Geocoder();
+			myGeo.getPoint("<?php echo $site ;?>", function(point){
+				console.log("<?php echo $site ;?>");
+				if (point) {
+					console.log(point)
+						var sContent =
+						"<h4 style='margin:0 0 5px 0;padding:0.2em 0'><?php echo $site ;?></h4>" +
+						"<a href='http://api.map.baidu.com/direction?origin=latlng:"+r.point.lat+","+r.point.lng+"|name:我家&destination=latlng:"+point.lat+","+point.lng+"|name:南湖公园&mode=driving&region=广西省&output=html&src=yourCompanyName|yourAppName'><h5>导航</h5></a>"+
+						"</div>";
+
+					
+					var marker = new BMap.Marker(point);
+					var infoWindow = new BMap.InfoWindow(sContent); 
+					map.centerAndZoom(point,14);
+					
+					var pt = new BMap.Point(point);
+					var myIcon = new BMap.Icon("__STATIC__img/mylocal.png", new BMap.Size(60,60));
+					var marker2 = new BMap.Marker(point,{icon:myIcon});  // 创建标注
+					map.addOverlay(marker2);      // 将标注添加到地图					
+					
+					//map.addOverlay(marker);
+					marker2.addEventListener("click", function(){          
+					   this.openInfoWindow(infoWindow);
+					   document.getElementById('imgDemo').onload = function (){
+						   infoWindow.redraw();  
+					   }
+					});
+				}else{
+					alert("找不到地址无效");
+				}
+			}, "广西省南宁市");
+			
+			
+                l = r.point.lng;
+                t = r.point.lat;
+                lt = r.point;
+                //console.log(l);
+			if(l!=''){
+				$.post("{:url('drivers/getInfo')}",{},function(result){
+				
+				var resultLength = result.length;
+				
+				for (var i=0 ;i<resultLength;i++){
+					
+					var arr = [result[i]['lng'],result[i]['lat'],
+								"<div><p>名称:"+result[i]['drive_name']+
+								"<div><p>地址:"+result[i]['site']+"</p>" +
+								"<p>" +
+								"<a href='http://api.map.baidu.com/direction?origin=latlng:"+t+","+l+"|name:出发点&destination="+result[i]['site']+"&mode=driving&region=上海市&output=html&src=yourCompanyName|yourAppName'><button  style='background-color: #ffad33; /* Green */border-radius: 2px;color: white;margin-right:10px;padding:10px 20px;text-align:center;text-decoration:none;display:inline-block;font-size: 12px;'>导航</button></a>" +
+								"<a href='"+result[i]['link']+"'><button  style='background-color: #ffad33; /* Green */border-radius: 2px;color: white;margin-right:10px;padding:10px 20px;text-align:center;text-decoration:none;display:inline-block;font-size: 12px;'>链接</button></a>" +
+								"<a href='tel:"+result[i]['phone']+"'><button  style='background-color: #ffad33; /* Green */border-radius: 2px;color: white;margin-right:10px;padding:10px 20px;text-align:center;text-decoration:none;display:inline-block;font-size: 12px;'>电话</button></a>" +
+								"</p>" +
+								"</div>"
+							];
+					
+               
+					data_info.push(arr);
+				
+					}
+					
+				   var opts = {
+                    width : 270,     // 信息窗口宽度
+                    height: 180,     // 信息窗口高度
+                    title : "驾校分布图" , // 信息窗口标题
+                    enableMessage:true//设置允许信息窗发送短息
+                };
+				
+
+				//mMapView.showZoomControls(true);
+                for(var i=0;i<data_info.length;i++){
+                    var marker = new BMap.Marker(new BMap.Point(data_info[i][0],data_info[i][1]));  // 创建标注
+                    var content = data_info[i][2];
+					
+					if(result[i].type == 1){
+						map.addOverlay(marker);    
+					}else{
+						var pt = new BMap.Point(data_info[i][0],data_info[i][1]);
+						var myIcon = new BMap.Icon("__STATIC__img/tysite.png", new BMap.Size(60,60));
+						var marker = new BMap.Marker(pt,{icon:myIcon});  // 创建标注
+						map.addOverlay(marker);   
+					}
+					   // 将标注添加到地图
+					
+					
+                   // 
+						;	
+					// 将标注添加到地图中
+                    addClickHandler(content,marker);
+                }
+				function addClickHandler(content,marker){
+					marker.addEventListener("click",function(e){
+						openInfo(content,e)}
+					);
+				}
+				function openInfo(content,e){
+					var p = e.target;
+					var point = new BMap.Point(p.getPosition().lng, p.getPosition().lat);
+					var infoWindow = new BMap.InfoWindow(content,opts);  // 创建信息窗口对象
+					map.openInfoWindow(infoWindow,point); //开启信息窗口
+				}
+				
+				
+				});
+
+}
+ 
+			
+		}
+		else {
+			alert('failed'+this.getStatus());
+		}
+
+
+
+        
+	},{enableHighAccuracy: true})
+	
+	
+	
+	
+</script>
+<style>
+.BMap_cpyCtrl {  
+    display: none;  
+}  
+  
+.anchorBL {  
+    display: none;  
+}  
+</style>
