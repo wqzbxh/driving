@@ -1,0 +1,77 @@
+{__NOLAYOUT__}
+{include file="publics/header"}
+
+<form class="form-inline definewidth m20" action="index.html" method="get">  
+    角色名称：
+    <input type="text" name="rolename" id="rolename"class="abc input-default" placeholder="" value="">&nbsp;&nbsp;  
+    <button type="submit" class="btn btn-primary">查询</button>&nbsp;&nbsp;<a href="{:url('staff/add')}"><button type="button" class="btn btn-success">新增角色</button></a>
+</form>
+<table class="table table-bordered table-hover definewidth m10" >
+    <thead>
+    <tr>
+        <th>角色id</th>
+        <th>名称</th>
+        <th>账号</th>
+        <th>角色</th>
+        <th>状态</th>
+        <th>操作</th>
+    </tr>
+    </thead>
+
+
+    {foreach $list as $vo}
+    <tr>
+        <td>{$vo.id}</td>
+        <td>{$vo.nick_name}</td>
+        <td>{$vo.name}</td>
+        <td>{$vo.rotula}</td>
+        <td>{$vo.status_}</td>
+        <td>
+            <a class = 'btn btn-primary' href="{:url('staff/edit')}?id={$vo.id}">编辑</a>
+            <botton class = 'btn btn-success' onClick="del({$vo.id})">删除</botton>
+        </td>
+    </tr>
+    {/foreach}
+
+
+</table>
+		</body>
+		</html>
+
+<script>
+    $(function () {
+        
+		$('#addnew').click(function(){
+
+				window.location.href="add.html";
+		 });
+
+
+    });
+
+	function del(id)
+	{
+		
+		
+		if(confirm("确定要删除吗？"))
+		{
+		
+			   $.post("{:url('staff/delUserAction')}",{id:id},function(result){
+	                if(result == true)
+	                {
+	                    alert('删除成功！');
+	                    window.location.reload();
+	                }else
+	                    {
+	                        alert('删除失败！');
+	                        window.location.reload();
+	                    }
+	            });
+		
+		}
+	
+	
+	
+	
+	}
+</script>

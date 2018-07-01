@@ -51,7 +51,12 @@ class Login extends Controller
 			if($result){
 				$userRow =  $result->toArray();
 				session('userRow',$userRow);
-				$this->redirect('index/index');
+				//var_dump($userRow);exit;
+				if($userRow['type'] == 0){
+				    $this->redirect('index/index');
+				}else if($userRow['type'] == 1){
+				    $this->redirect('driving/drivers/index');
+				}
 			}else{
 				echo "<script>alert('账号密码错误')</script>";
 				$this->redirect('index');

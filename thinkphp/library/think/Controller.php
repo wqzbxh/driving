@@ -77,7 +77,13 @@ class Controller
 		if(empty(session('userRow'))){
             $this->redirect('login/index');
         }else{
-            session('userRow', session('userRow'));
+            if(session('userRow')['type'] == 0){
+                session('userRow', session('userRow'));
+            }else if(session('userRow')['type'] == 1){
+                $this->redirect('driving/drivers/index');
+                session('userRow', session('userRow'));
+            }
+          
         }
     }
 
