@@ -141,27 +141,6 @@
 
     </div>
     <div id="mcover_txt" onclick="javascript:void(0) document.getElementById('mcover_txt').style.display = 'none'; " style="display: none; z-index: 10001; position: fixed; top: 0px; left: 0px; width: 80%; height: 100%; text-align: left; padding-top: 20%; padding-left: 10%; padding-right: 10%; color: #fff; background: rgba(0, 0, 0, 0.65); font-size: 1.1rem; line-height: 1.8; text-shadow: 3px 3px 3px #1b1b1b; word-break: break-all;"></div>
-    <!--<div id="ctl00_footer_function" class="footer1">-->
-    <!--<span>-->
-    <!--<a href="javascript:void(0)/ChooseReg.aspx" class="login_Kuan" style="margin-right: 10px">注册</a>-->
-    <!--<a href="javascript:void(0)/login/jwlogin.aspx" class="login_Kuan">登陆</a>-->
-    <!--</span>-->
-    <!--&lt;!&ndash;</div>&ndash;&gt;-->
-    <!--<div class="footer2">-->
-
-    <!--<span class="BottomMenu">-->
-    <!--<a href="javascript:void(0)/download.aspx">手机客户端</a> |-->
-
-    <!--<a href="javascript:void(0)http://hr0755.com?touch=1">电脑版</a> |-->
-
-    <!--<a href="javascript:void(0)/FeedBack.aspx">用户反馈</a></span><br />-->
-    <!--<span style="margin-top: 10px; display: block;">All Rights Reserved&nbsp;hr0755.com&nbsp;版权所有-->
-
-    <!--</span>-->
-
-    <!--</div>-->
-
-
 </form>
 
 <div style="position:fixed;text-align:center;bottom:200px;;right:10px;z-index:9999;background:#FFF;padding:4px;border-radius:5px;height:80px;" id="getMylocltion" >
@@ -252,18 +231,37 @@
                 console.log(l);
 			if(l!=''){
 				$.post("{:url('drivers/getInfo')}",{},function(result){
-				var resultLength = result.length;
+				var resultLength = result[0].length;
+				console.log(result)
+				localStorage.lastname =  result[1];
+				console.log(localStorage.lastname) ;
+				var result = result[0];
+				console.log(result);
 				for (var i=0 ;i<resultLength;i++){
+					if(localStorage.lastname==1){
+						var arr = [result[i]['lng'],result[i]['lat'],
+									"<div><p style='font-size:11px;'>"+result[i]['drive_name']+
+									"<div><p style='font-size:11px;'>"+result[i]['price']+
+									"<br><br><span style='font-size:11px;'>地址:"+result[i]['site']+"</span><br><br>" +
+									"<a href='http://api.map.baidu.com/direction?origin=latlng:"+t+","+l+"|name:出发点&destination="+result[i]['site']+"&mode=driving&region=上海市&output=html&src=yourCompanyName|yourAppName'><button  style='background-color: #ffad33; /* Green */border-radius: 2px;color: white;margin-right:10px;padding:2px 10px;text-align:center;text-decoration:none;display:inline-block;font-size: 12px;'>导航</button></a>" +
+									"<a href='"+result[i]['link']+"'><button  style='background-color: #ffad33; /* Green */border-radius: 2px;color: white;margin-right:10px;padding:2px 20px;text-align:center;text-decoration:none;display:inline-block;font-size: 12px;'>详情</button></a>" +
+									"<a href='tel:"+result[i]['phone']+"'><button  style='background-color: #ffad33;font-size:12px; /* Green */border-radius: 2px;color: white;margin-right:10px;padding:2px 20px;text-align:center;text-decoration:none;display:inline-block;font-size: 12px;'>电话</button></a>" +
+								
+									""
+								];
+					}else{
+						var arr = [result[i]['lng'],result[i]['lat'],
+									"<div><p style='font-size:11px;'>"+result[i]['drive_name']+
+									"<br><br><span style='font-size:11px;'>地址:"+result[i]['site']+"</span><br><br>" +
+									"<a href='http://api.map.baidu.com/direction?origin=latlng:"+t+","+l+"|name:出发点&destination="+result[i]['site']+"&mode=driving&region=上海市&output=html&src=yourCompanyName|yourAppName'><button  style='background-color: #ffad33; /* Green */border-radius: 2px;color: white;margin-right:10px;padding:2px 10px;text-align:center;text-decoration:none;display:inline-block;font-size: 12px;'>导航</button></a>" +
+									"<a href='"+result[i]['link']+"'><button  style='background-color: #ffad33; /* Green */border-radius: 2px;color: white;margin-right:10px;padding:2px 20px;text-align:center;text-decoration:none;display:inline-block;font-size: 12px;'>详情</button></a>" +
+									"<a href='tel:"+result[i]['phone']+"'><button  style='background-color: #ffad33;font-size:12px; /* Green */border-radius: 2px;color: white;margin-right:10px;padding:2px 20px;text-align:center;text-decoration:none;display:inline-block;font-size: 12px;'>电话</button></a>" +
+								
+									""
+								];
+					}
+		
 					
-					var arr = [result[i]['lng'],result[i]['lat'],
-								"<div><p style='font-size:11px;'>"+result[i]['drive_name']+
-								"<br><br><span style='font-size:11px;'>地址:"+result[i]['site']+"</span><br><br>" +
-								"<a href='http://api.map.baidu.com/direction?origin=latlng:"+t+","+l+"|name:出发点&destination="+result[i]['site']+"&mode=driving&region=上海市&output=html&src=yourCompanyName|yourAppName'><button  style='background-color: #ffad33; /* Green */border-radius: 2px;color: white;margin-right:10px;padding:2px 10px;text-align:center;text-decoration:none;display:inline-block;font-size: 12px;'>导航</button></a>" +
-								"<a href='"+result[i]['link']+"'><button  style='background-color: #ffad33; /* Green */border-radius: 2px;color: white;margin-right:10px;padding:2px 20px;text-align:center;text-decoration:none;display:inline-block;font-size: 12px;'>详情</button></a>" +
-								"<a href='tel:"+result[i]['phone']+"'><button  style='background-color: #ffad33;font-size:12px; /* Green */border-radius: 2px;color: white;margin-right:10px;padding:2px 20px;text-align:center;text-decoration:none;display:inline-block;font-size: 12px;'>电话</button></a>" +
-							
-								""
-							];
 					data_info.push(arr);
 					}
 					

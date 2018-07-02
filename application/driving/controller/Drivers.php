@@ -20,6 +20,7 @@ class Drivers extends  Controller
     public function index()
     {
 		//echo '<h1 style="text-align:center;font-size:88px;">网站维护中……</h1>';exit;
+		//var_dump(session('userRow'));exit;
         $info = array();
         $driversMOdel = new \app\admin\model\Drivers();
 		if(!empty($_GET['id'])){
@@ -91,7 +92,7 @@ class Drivers extends  Controller
 	{
 	   $info = array();
         $driversMOdel = new \app\admin\model\Drivers();
-		$driversRows = $driversMOdel->field('id,drive_name,link,lng,lat,site,phone,type')->where(array('is_del'=>0,'is_show'=>1))->select();
+		$driversRows = $driversMOdel->field('id,drive_name,link,lng,lat,site,phone,type,price')->where(array('is_del'=>0,'is_show'=>1))->select();
         if($driversRows)
         {
             foreach ($driversRows as $driversRow)
@@ -102,9 +103,10 @@ class Drivers extends  Controller
 					$driverSchool['link'] =  "http://seat.gyouth.cn/driving/drivers/linkXq?id=".$driverSchool['id'];
 				}
                 $info[] = $driverSchool;
+               // $info['username'] = session('userRow');
             }
         }
-		return $info;
+		return array($info, session('userRow')['type']);
 	}
 	
 	
