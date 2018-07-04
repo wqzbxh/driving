@@ -17,9 +17,24 @@ class Place extends Controller
         1 => '驾校',
         2 => '体验站'
     );
-
+    public function _initialize()
+    {
+       
+          if(empty(session('userRow'))){
+             return '没有登录信息！';
+             echo '没有登录权限！';exit;
+         }elseif (session('userRow')["type"] == 0){
+           
+             
+         }else{
+           echo '没有登录权限！';exit;
+         }
+    
+    }
+    
     public function index()
     {
+        
         $returnArray = array();
 		$info = array(); 
         $page = !empty($_GET['page']) ? $_GET['page'] : 0 ;

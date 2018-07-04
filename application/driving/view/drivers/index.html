@@ -241,8 +241,8 @@
 					if(localStorage.lastname==1){
 						var arr = [result[i]['lng'],result[i]['lat'],
 									"<div><p style='font-size:11px;'>"+result[i]['drive_name']+
-									"<div><p style='font-size:11px;'>"+result[i]['price']+
-									"<br><br><span style='font-size:11px;'>地址:"+result[i]['site']+"</span><br><br>" +
+									"<div><p style='font-size:11px;'><span style='color:red'>￥："+result[i]['price']+
+									"</span><br><br><span style='font-size:11px;'>地址:"+result[i]['site']+"</span><br><br>" +
 									"<a href='http://api.map.baidu.com/direction?origin=latlng:"+t+","+l+"|name:出发点&destination="+result[i]['site']+"&mode=driving&region=上海市&output=html&src=yourCompanyName|yourAppName'><button  style='background-color: #ffad33; /* Green */border-radius: 2px;color: white;margin-right:10px;padding:2px 10px;text-align:center;text-decoration:none;display:inline-block;font-size: 12px;'>导航</button></a>" +
 									"<a href='"+result[i]['link']+"'><button  style='background-color: #ffad33; /* Green */border-radius: 2px;color: white;margin-right:10px;padding:2px 20px;text-align:center;text-decoration:none;display:inline-block;font-size: 12px;'>详情</button></a>" +
 									"<a href='tel:"+result[i]['phone']+"'><button  style='background-color: #ffad33;font-size:12px; /* Green */border-radius: 2px;color: white;margin-right:10px;padding:2px 20px;text-align:center;text-decoration:none;display:inline-block;font-size: 12px;'>电话</button></a>" +

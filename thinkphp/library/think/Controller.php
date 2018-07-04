@@ -79,9 +79,9 @@ class Controller
         }else{
             if(session('userRow')['type'] == 0){
                 session('userRow', session('userRow'));
+               // $this->redirect('admin/index/index');
             }else if(session('userRow')['type'] == 1){
                 $this->redirect('driving/drivers/index');
-                session('userRow', session('userRow'));
             }
           
         }

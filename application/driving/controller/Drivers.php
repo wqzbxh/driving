@@ -20,7 +20,10 @@ class Drivers extends  Controller
     public function index()
     {
 		//echo '<h1 style="text-align:center;font-size:88px;">网站维护中……</h1>';exit;
-		//var_dump(session('userRow'));exit;
+		//
+		
+        //session('userRow',null);
+        //var_dump(session('userRow'));exit;
         $info = array();
         $driversMOdel = new \app\admin\model\Drivers();
 		if(!empty($_GET['id'])){
