@@ -28,13 +28,11 @@
 
 <form action="{:url('place/editAction')}" method="post" class="definewidth m20">
 		<table class="table table-bordered table-hover definewidth m10">
-		 <tr>
-            <td width="10%" class="tableleft">驾校名称</td>
-            <td><input  style="width:300px;display:none;" type="text" name="id" value="{$row.id}"/></td>
-        </tr>
+
         <tr>
             <td width="10%" class="tableleft">驾校名称</td>
             <td><input  style="width:300px" type="text" name="name" value="{$row.drive_name}"/></td>
+                <td><input  style="width:300px;display:none;" type="text" name="id" value="{$row.id}"/></td>
         </tr>
         <tr>
             <td class="tableleft">驾校地址</td>
@@ -55,6 +53,10 @@
         <tr>
             <td class="tableleft">链接</td>
             <td><input  style="width:500px" type="text" name="link"   value="{$row.link}" /></td>
+        </tr>
+        <tr>
+            <td class="tableleft">价格</td>
+            <td><input  style="width:500px" type="text" name="price"   value="{$row.price}" /></td>
         </tr>
         <tr>
             <td class="tableleft">地址类型</td>

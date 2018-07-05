@@ -45,12 +45,12 @@ class Place extends Controller
         $driversModel = new \app\admin\model\Drivers();
         if(isset($_POST['search'])){
             $search = $_POST['search'];
-            $driversRows = $driversModel->field('id,drive_name,link,lng,lat,site,phone,type')->where(array('is_del'=>0,'is_show'=>1))->order($order)->where($driversModel->fuzzy_query,'like','%'.$search.'%')->limit($offset,$limit)->select();
-            $count = $driversModel->field('id,drive_name,link,lng,lat,site,phone,type')->where(array('is_del'=>0,'is_show'=>1))->order($order)->where($driversModel->fuzzy_query,'like','%'.$search.'%')->count();
+            $driversRows = $driversModel->field('id,drive_name,link,lng,lat,site,phone,type,price')->where(array('is_del'=>0,'is_show'=>1))->order($order)->where($driversModel->fuzzy_query,'like','%'.$search.'%')->limit($offset,$limit)->select();
+            $count = $driversModel->field('id,drive_name,link,lng,lat,site,phone,type,price')->where(array('is_del'=>0,'is_show'=>1))->order($order)->where($driversModel->fuzzy_query,'like','%'.$search.'%')->count();
 
         }else{
-            $driversRows = $driversModel->field('id,drive_name,link,lng,lat,site,phone,type')->where(array('is_del'=>0,'is_show'=>1))->order($order)->limit($offset,$limit)->select();
-            $count = $driversModel->field('id,drive_name,link,lng,lat,site,phone,type')->where(array('is_del'=>0,'is_show'=>1))->count();
+            $driversRows = $driversModel->field('id,drive_name,link,lng,lat,site,phone,type,price')->where(array('is_del'=>0,'is_show'=>1))->order($order)->limit($offset,$limit)->select();
+            $count = $driversModel->field('id,drive_name,link,lng,lat,site,phone,type,price')->where(array('is_del'=>0,'is_show'=>1))->count();
         }
 
         if($driversRows)
@@ -121,7 +121,7 @@ class Place extends Controller
         $returnArray =array();
         $driversModel = new \app\admin\model\Drivers();
 		$usersModel = new \app\admin\model\Users();
-		 $redis = $usersModel->listRedis();
+		 //$redis = $usersModel->listRedis();
 
         if($_POST['name']){
             $data['drive_name'] = $_POST['name'];
@@ -158,7 +158,12 @@ class Place extends Controller
                 'data' => array()
             );
         }
-
+        if($_POST['price']){
+            $data['price'] = $_POST['price'];
+        }else{
+            $data['price'] = 0;
+        }
+        
         if($_POST['lat']){
             $data['lat'] = $_POST['lat'];
         }else{
@@ -201,7 +206,7 @@ class Place extends Controller
                 );
 		
 			 $info = $data['drive_name'].'!@#$%'. $data['link'].'!@#$%'. $data['lng'].'!@#$%'. $data['lat'].'!@#$%'. $data['site'].'!@#$%'. $data['phone'].'!@#$%'. $data['type'].'!@#$%'. $result['id'];
-			 $redis->LPUSH('seatList',$info); 		
+			// $redis->LPUSH('seatList',$info); 		
                 $this->success('新增成功', 'index');
             }else
                 {
@@ -269,6 +274,10 @@ class Place extends Controller
             );
         }
 
+        if(empty($_POST['price'])){
+            $data['price'] = $_POST['price'];
+        }
+        
         if($_POST['lat']){
             $data['lat'] = $_POST['lat'];
         }else{
@@ -408,7 +417,7 @@ class Place extends Controller
 			$info = '';
 			$data = $rows->toArray();
 			if($data){
-				 $info = $data['drive_name'].'!@#$%'. $data['link'].'!@#$%'. $data['lng'].'!@#$%'. $data['lat'].'!@#$%'. $data['site'].'!@#$%'. $data['phone'].'!@#$%'. $data['type'].'!@#$%'. $data['id'];
+				 $info = $data['price'].'!@#$%'.$data['drive_name'].'!@#$%'. $data['link'].'!@#$%'. $data['lng'].'!@#$%'. $data['lat'].'!@#$%'. $data['site'].'!@#$%'. $data['phone'].'!@#$%'. $data['type'].'!@#$%'. $data['id'];
 				 $redis->LPUSH('seatList',$info); 
 			}
 		}
